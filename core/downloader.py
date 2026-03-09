@@ -38,6 +38,8 @@ class Downloader:
     """Threaded yt-dlp wrapper with privacy-first design."""
 
     AUDIO_EXTENSIONS = {".mp3", ".m4a", ".flac", ".opus", ".wav", ".aac", ".ogg"}
+    VIDEO_EXTENSIONS = {".mp4", ".mkv", ".webm", ".mov", ".avi", ".m4v"}
+    TEMP_EXTENSIONS = {".webp", ".part", ".ytdl", ".temp", ".tmp"}
     TRACK_ID_PATTERN = re.compile(r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{6,})")
 
     def __init__(self, config: Config):
@@ -328,6 +330,45 @@ class Downloader:
 
         return None
 
+    @staticmethod
+    def _filename_contains_track_id(path: Path, track_id: str) -> bool:
+        return bool(track_id) and f"[{track_id}]" in path.name
+
+    @classmethod
+    def _track_artifact_paths(cls, output_dir: str, track_id: str) -> list[Path]:
+        directory = Path(output_dir)
+        if not track_id or not directory.exists():
+            return []
+
+        return [
+            path for path in directory.iterdir()
+            if path.is_file() and cls._filename_contains_track_id(path, track_id)
+        ]
+
+    @classmethod
+    def _has_expected_audio_file(cls, output_dir: str, track_id: str, expected_ext: str) -> bool:
+        return any(
+            path.suffix.lower() == expected_ext
+            for path in cls._track_artifact_paths(output_dir, track_id)
+        )
+
+    @classmethod
+    def _cleanup_failed_track_artifacts(cls, output_dir: str, track_id: str, expected_ext: str):
+        removable_extensions = cls.AUDIO_EXTENSIONS | cls.VIDEO_EXTENSIONS | cls.TEMP_EXTENSIONS
+        for path in cls._track_artifact_paths(output_dir, track_id):
+            if path.suffix.lower() == expected_ext:
+                continue
+            if path.suffix.lower() not in removable_extensions:
+                continue
+            try:
+                path.unlink()
+            except OSError:
+                pass
+
+    @staticmethod
+    def _has_app_track_marker(filename: str) -> bool:
+        return bool(re.search(r"\[[A-Za-z0-9_-]{6,}\](?=\.[^.]+$)", filename))
+
     @classmethod
     def _read_local_track_ids(cls, output_dir: str) -> set[str]:
         local_ids: set[str] = set()
@@ -436,6 +477,7 @@ class Downloader:
         downloaded = 0
         failed = 0
         already_present = total - len(missing_entries)
+        expected_audio_ext = f".{self.config.get('audio_format', 'mp3').lower()}"
 
         self._progress.message = (
             f"{playlist_name}: {already_present} already present, "
@@ -458,6 +500,15 @@ class Downloader:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 result = ydl.download([self._entry_url(entry)])
                 if result == 0:
+                    if track_id and not self._has_expected_audio_file(output_dir, track_id, expected_audio_ext):
+                        self._cleanup_failed_track_artifacts(output_dir, track_id, expected_audio_ext)
+                        failed += 1
+                        self._progress.message = (
+                            f"Conversion failed for {entry.get('title', 'Unknown')}: "
+                            f"missing {expected_audio_ext} output."
+                        )
+                        self._notify_progress()
+                        continue
                     downloaded += 1
                     if track_id:
                         local_track_ids.add(track_id)
@@ -494,14 +545,18 @@ class Downloader:
 
     def _post_process_filenames(self, output_dir: str, ext: str):
         if not os.path.isdir(output_dir): return
-        junk = {'.webm', '.webp', '.part', '.ytdl', '.temp', '.tmp'}
-        audio = {'.mp3', '.m4a', '.flac', '.opus', '.wav', '.aac', '.ogg'}
+        junk = self.TEMP_EXTENSIONS
+        audio = self.AUDIO_EXTENSIONS
 
         for filename in os.listdir(output_dir):
             filepath = os.path.join(output_dir, filename)
             if not os.path.isfile(filepath): continue
             _, fext = os.path.splitext(filename)
             if fext.lower() in junk:
+                try: os.remove(filepath)
+                except OSError: pass
+                continue
+            if fext.lower() in self.VIDEO_EXTENSIONS and self._has_app_track_marker(filename):
                 try: os.remove(filepath)
                 except OSError: pass
                 continue
