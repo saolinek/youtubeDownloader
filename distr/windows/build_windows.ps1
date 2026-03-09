@@ -12,8 +12,32 @@ New-Item -ItemType Directory -Force -Path $WorkDir | Out-Null
 New-Item -ItemType Directory -Force -Path $SpecDir | Out-Null
 
 function Copy-ToolToVendor([string]$ToolName) {
+    $ResolvedPaths = @()
+    $WhereOutput = & where.exe $ToolName 2>$null
+    if ($WhereOutput) {
+        $ResolvedPaths += ($WhereOutput -split "`r?`n" | Where-Object { $_ })
+    }
+
     $Command = Get-Command $ToolName -ErrorAction Stop
-    $SourcePath = $Command.Source
+    if ($Command.Source) {
+        $ResolvedPaths += $Command.Source
+    }
+
+    $ChocolateyInstall = $env:ChocolateyInstall
+    if ($ChocolateyInstall) {
+        $ResolvedPaths += Join-Path $ChocolateyInstall "lib\ffmpeg\tools\ffmpeg\bin\$ToolName.exe"
+        $ResolvedPaths += Join-Path $ChocolateyInstall "lib\ffmpeg-full\tools\ffmpeg\bin\$ToolName.exe"
+    }
+
+    $SourcePath = $ResolvedPaths |
+        Where-Object { $_ -and (Test-Path $_) } |
+        Where-Object { $_ -notmatch '\\chocolatey\\bin\\' } |
+        Select-Object -First 1
+
+    if (-not $SourcePath) {
+        throw "Could not resolve real binary for $ToolName"
+    }
+
     $TargetPath = Join-Path $VendorDir ([System.IO.Path]::GetFileName($SourcePath))
     Copy-Item $SourcePath $TargetPath -Force
     return $TargetPath

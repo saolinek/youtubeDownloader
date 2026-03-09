@@ -108,6 +108,12 @@ class Downloader:
 
     def _build_yt_dlp_opts(self, output_dir: str, archive_path: Path | None = None) -> dict:
         """Build yt-dlp options with privacy controls and archive support."""
+        if not self.ffmpeg_path:
+            raise RuntimeError(
+                "FFmpeg is required for audio conversion. "
+                "The app will not download fallback MP4/M4A files."
+            )
+
         audio_format = self.config.get("audio_format", "mp3")
         
         opts = {
@@ -149,8 +155,7 @@ class Downloader:
         if proxy and proxy.strip():
             opts["proxy"] = proxy.strip()
 
-        if self.ffmpeg_path:
-            opts["ffmpeg_location"] = str(Path(self.ffmpeg_path).parent)
+        opts["ffmpeg_location"] = self.ffmpeg_path
 
         return opts
 

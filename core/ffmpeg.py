@@ -4,6 +4,7 @@ Helpers for locating ffmpeg in source and bundled builds.
 
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 from core.runtime import get_runtime_root
@@ -29,7 +30,6 @@ def _common_ffmpeg_paths() -> list[Path]:
             os.environ.get("ProgramFiles", ""),
             os.environ.get("ProgramFiles(x86)", ""),
             os.environ.get("LocalAppData", ""),
-            os.environ.get("ChocolateyInstall", ""),
         ]
         candidates = [
             Path(base) / "ffmpeg" / "bin" / "ffmpeg.exe"
@@ -42,6 +42,14 @@ def _common_ffmpeg_paths() -> list[Path]:
                 Path.home() / "AppData" / "Local" / "Microsoft" / "WinGet" / "Links" / "ffmpeg.exe",
             ]
         )
+        chocolatey_root = os.environ.get("ChocolateyInstall", "")
+        if chocolatey_root:
+            candidates.extend(
+                [
+                    Path(chocolatey_root) / "lib" / "ffmpeg" / "tools" / "ffmpeg" / "bin" / "ffmpeg.exe",
+                    Path(chocolatey_root) / "lib" / "ffmpeg-full" / "tools" / "ffmpeg" / "bin" / "ffmpeg.exe",
+                ]
+            )
         return candidates
 
     return [
@@ -73,10 +81,29 @@ def find_ffmpeg() -> str | None:
 
     for candidate in candidates:
         expanded = candidate.expanduser()
-        if expanded.is_file() and os.access(expanded, os.X_OK):
+        if expanded.is_file() and os.access(expanded, os.X_OK) and is_working_ffmpeg(expanded):
             return str(expanded)
 
     return None
+
+
+def is_working_ffmpeg(path: Path | str) -> bool:
+    """Return True when the binary is executable and responds as ffmpeg."""
+    try:
+        result = subprocess.run(
+            [str(path), "-version"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+    except OSError:
+        return False
+    except subprocess.SubprocessError:
+        return False
+
+    output = f"{result.stdout}\n{result.stderr}".lower()
+    return result.returncode == 0 and "ffmpeg version" in output
 
 
 def ensure_ffmpeg_in_path() -> str | None:
