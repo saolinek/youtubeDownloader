@@ -36,3 +36,6 @@ build/
 # Allow shipping a built app in distr/
 !distr/
 !distr/**
+
+# Windows build scratch files
+vendor/ffmpeg/

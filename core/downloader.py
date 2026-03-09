@@ -6,7 +6,6 @@ Handles downloading with privacy controls, rate limiting, and progress reporting
 import os
 import re
 import random
-import subprocess
 import threading
 from datetime import datetime
 from pathlib import Path
@@ -18,6 +17,7 @@ from mutagen import File as MutagenFile
 
 from core.config import Config
 from core.ffmpeg import ensure_ffmpeg_in_path
+from core.notifications import send_notification
 
 
 class DownloadProgress:
@@ -156,7 +156,7 @@ class Downloader:
 
     def _get_flat_playlist_opts(self) -> dict:
         opts = {"quiet": True, "extract_flat": True}
-        if not self.config.is_anonymous and Path(self.config.cookies_file).exists():
+        if not self.config.is_anonymous and self.config.cookies_file and Path(self.config.cookies_file).exists():
             opts["cookiefile"] = self.config.cookies_file
         if self.config.proxy.strip():
             opts["proxy"] = self.config.proxy.strip()
@@ -541,13 +541,7 @@ class Downloader:
     def _send_notification(self, title: str, message: str):
         if not self.config.get("notifications_enabled", True):
             return
-        try:
-            safe_message = message.replace('"', '\\"')
-            safe_title = title.replace('"', '\\"')
-            subprocess.run(["osascript", "-e", f'display notification "{safe_message}" with title "{safe_title}"'],
-                           capture_output=True, timeout=5)
-        except Exception:
-            pass
+        send_notification(title, message)
 
     @staticmethod
     def get_playlist_info(url: str, cookies_file: str = "", proxy: str = "") -> dict | None:

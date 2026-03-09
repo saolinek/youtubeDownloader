@@ -1,0 +1,55 @@
+$ErrorActionPreference = "Stop"
+
+$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+$VendorDir = Join-Path $ProjectRoot "vendor\ffmpeg"
+$DistDir = Join-Path $ProjectRoot "distr"
+$WorkDir = Join-Path $ProjectRoot "build\windows"
+$SpecDir = Join-Path $WorkDir "spec"
+
+New-Item -ItemType Directory -Force -Path $VendorDir | Out-Null
+New-Item -ItemType Directory -Force -Path $DistDir | Out-Null
+New-Item -ItemType Directory -Force -Path $WorkDir | Out-Null
+New-Item -ItemType Directory -Force -Path $SpecDir | Out-Null
+
+function Copy-ToolToVendor([string]$ToolName) {
+    $Command = Get-Command $ToolName -ErrorAction Stop
+    $SourcePath = $Command.Source
+    $TargetPath = Join-Path $VendorDir ([System.IO.Path]::GetFileName($SourcePath))
+    Copy-Item $SourcePath $TargetPath -Force
+    return $TargetPath
+}
+
+$FfmpegExe = Copy-ToolToVendor "ffmpeg"
+$FfprobeExe = Copy-ToolToVendor "ffprobe"
+
+$IconPng = Join-Path $ProjectRoot "assets\icon.png"
+$IconIco = Join-Path $ProjectRoot "assets\icon.ico"
+$MainScript = Join-Path $ProjectRoot "main.py"
+
+$PyInstallerArgs = @(
+    "--noconfirm",
+    "--clean",
+    "--onefile",
+    "--windowed",
+    "--name", "YTMusic Smart Downloader",
+    "--icon", $IconIco,
+    "--paths", $ProjectRoot,
+    "--distpath", $DistDir,
+    "--workpath", $WorkDir,
+    "--specpath", $SpecDir,
+    "--add-data", "${IconPng};assets",
+    "--add-data", "${IconIco};assets",
+    "--add-binary", "${FfmpegExe};.",
+    "--add-binary", "${FfprobeExe};.",
+    "--collect-all", "customtkinter",
+    "--collect-all", "yt_dlp",
+    "--collect-all", "PIL",
+    "--collect-all", "mutagen",
+    $MainScript
+)
+
+python -m PyInstaller @PyInstallerArgs
+
+Write-Host ""
+Write-Host "Windows build ready:"
+Write-Host "  $(Join-Path $DistDir 'YTMusic Smart Downloader.exe')"

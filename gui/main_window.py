@@ -3,13 +3,13 @@ Main Window for YTMusic Smart Downloader.
 Light Material 3 (Material You) design.
 """
 
-import os
+import platform
 import customtkinter as ctk
-from pathlib import Path
 
 from core.config import Config
 from core.downloader import Downloader
 from core.ffmpeg import ensure_ffmpeg_in_path
+from core.runtime import get_resource_path
 
 
 from gui.download_panel import DownloadPanel
@@ -26,6 +26,10 @@ class MainWindow(ctk.CTk):
     APP_VERSION = "1.0.0"
     WINDOW_WIDTH = 900
     WINDOW_HEIGHT = 850
+    TITLE_FONT_FAMILY = {
+        "Darwin": "SF Pro Display",
+        "Windows": "Segoe UI",
+    }.get(platform.system())
 
     def __init__(self, config: Config):
         super().__init__()
@@ -49,20 +53,50 @@ class MainWindow(ctk.CTk):
         if not self.ffmpeg_path:
             messagebox.showerror(
                 "FFmpeg Missing",
-                "FFmpeg is required for audio conversion but was not found on your system.\n\n"
-                "Please install it via Homebrew:\nbrew install ffmpeg"
+                self._ffmpeg_help_text(),
             )
+
+    @staticmethod
+    def _ffmpeg_help_text() -> str:
+        prefix = "FFmpeg is required for audio conversion but was not found on your system.\n\n"
+
+        if platform.system() == "Windows":
+            return (
+                prefix
+                + "Install it with winget:\nwinget install Gyan.FFmpeg\n\n"
+                + "Or set FFMPEG_PATH to your ffmpeg.exe."
+            )
+
+        if platform.system() == "Darwin":
+            return (
+                prefix
+                + "Please install it via Homebrew:\nbrew install ffmpeg\n\n"
+                + "Or set FFMPEG_PATH to your ffmpeg binary."
+            )
+
+        return prefix + "Install it from your package manager, or set FFMPEG_PATH."
 
     def _set_icon(self):
         try:
-            icon_path = Path("assets/icon.png")
-            if icon_path.exists():
-                from PIL import Image
-                # Set icon for window and taskbar
-                img = Image.open(icon_path)
-                self.iconphoto(True, ctk.CTkImage(img))
+            icon_png = get_resource_path("assets", "icon.png")
+            if icon_png.exists():
+                from PIL import Image, ImageTk
+
+                img = Image.open(icon_png)
+                self._window_icon = ImageTk.PhotoImage(img)
+                self.iconphoto(True, self._window_icon)
+
+            if platform.system() == "Windows":
+                icon_ico = get_resource_path("assets", "icon.ico")
+                if icon_ico.exists():
+                    self.iconbitmap(default=str(icon_ico))
         except Exception as e:
             print(f"Could not set icon: {e}")
+
+    def _title_font(self) -> ctk.CTkFont:
+        if self.TITLE_FONT_FAMILY:
+            return ctk.CTkFont(family=self.TITLE_FONT_FAMILY, size=18, weight="bold")
+        return ctk.CTkFont(size=18, weight="bold")
 
     def _build_ui(self):
         self.grid_columnconfigure(0, weight=1)
@@ -78,8 +112,8 @@ class MainWindow(ctk.CTk):
         logo_frame.pack(side="left", padx=5)
         
         ctk.CTkLabel(logo_frame, text="🎵", font=ctk.CTkFont(size=28)).pack(side="left")
-        ctk.CTkLabel(logo_frame, text="YTMusic Smart Downloader", 
-                     font=ctk.CTkFont(family="SF Pro Display", size=18, weight="bold"),
+        ctk.CTkLabel(logo_frame, text="YTMusic Smart Downloader",
+                     font=self._title_font(),
                      text_color=M3["on_surface"]).pack(side="left", padx=(10, 0))
 
         # Settings Button (Top Right)

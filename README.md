@@ -1,8 +1,8 @@
 # YTMusic Smart Downloader 🎵🔒
 
-A **privacy-first** macOS desktop application for downloading YouTube Music playlists with maximum security and anonymity.
+A **privacy-first** desktop application for downloading YouTube Music playlists with maximum security and anonymity.
 
-Built with Python 3.12, CustomTkinter, and yt-dlp. Packaged as a native `.app` via py2app (Apple Silicon).
+Built with Python 3.12, CustomTkinter, and yt-dlp. Packaged as a native macOS `.app` via py2app and as a Windows `.exe` via PyInstaller.
 
 ---
 
@@ -38,13 +38,16 @@ Built with Python 3.12, CustomTkinter, and yt-dlp. Packaged as a native `.app` v
 
 ### Prerequisites
 
-- **macOS** Ventura 13+ (Sonoma / Sequoia recommended)
+- **macOS** Ventura 13+ or **Windows 10/11**
 - **Python 3.12+**
-- **ffmpeg** (for audio conversion)
+- **ffmpeg** (for audio conversion when running from source)
 
 ```bash
-# Install ffmpeg via Homebrew
+# macOS
 brew install ffmpeg
+
+# Windows
+winget install Gyan.FFmpeg
 ```
 
 ### Installation
@@ -73,6 +76,20 @@ python setup_app.py py2app
 ```
 
 The `.app` bundle will be in the `dist/` folder.
+
+### Build Windows `.exe`
+
+Run this on Windows:
+
+```powershell
+python -m pip install -r requirements.txt
+python -m pip install pyinstaller
+.\distr\windows\build_windows.ps1
+```
+
+The Windows executable is written to `distr/YTMusic Smart Downloader.exe`.
+
+If you push to `main`, GitHub Actions also builds the Windows executable and commits it back into `distr/`.
 
 ---
 

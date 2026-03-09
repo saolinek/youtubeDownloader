@@ -87,7 +87,7 @@ class SettingsDialog(ctk.CTkToplevel):
         # Notifications
         c4 = self._card(sc); c4.pack(fill="x", pady=(0, 10))
         i4 = ctk.CTkFrame(c4, fg_color="transparent"); i4.pack(fill="x", padx=20, pady=14)
-        self.notif = ctk.CTkSwitch(i4, text="🔔 macOS notifications on completion",
+        self.notif = ctk.CTkSwitch(i4, text="🔔 Desktop notifications on completion",
                                    font=ctk.CTkFont(size=13))
         self.notif.pack(anchor="w")
         if self.config.get("notifications_enabled", True): self.notif.select()

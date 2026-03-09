@@ -41,6 +41,8 @@ OPTIONS = {
         "core.config",
         "core.downloader",
         "core.ffmpeg",
+        "core.notifications",
+        "core.runtime",
         "gui",
         "gui.main_window",
         "gui.download_panel",
