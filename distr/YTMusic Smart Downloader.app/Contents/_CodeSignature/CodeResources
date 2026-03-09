@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/__boot__.py</key>
 		<data>
-		F8FK2D7Vbv0S4Rzhex0Kpipd1jo=
+		uTYEZ7LL1pXbwnisBZhft3YGGvA=
 		</data>
 		<key>Resources/__error__.sh</key>
 		<data>
@@ -971,6 +971,54 @@
 		<key>Resources/lib/python3.14/certifi/py.typed</key>
 		<data>
 		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>Resources/lib/python3.14/core/__init__.py</key>
+		<data>
+		YqYn/lDMap0yDdy1J+SzWkeZ/KM=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/__init__.cpython-314.pyc</key>
+		<data>
+		w66xX0XveQiDRxSDofpjbfyYluY=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/config.cpython-314.pyc</key>
+		<data>
+		4Pvd3vnOHUQG/dEeoOA8qHryQTs=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/downloader.cpython-314.pyc</key>
+		<data>
+		D885O7avD1mY+6iyOeefMKro1z4=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/ffmpeg.cpython-314.pyc</key>
+		<data>
+		zdftp7NICkYd5mRtdSszvcrbhcY=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/notifications.cpython-314.pyc</key>
+		<data>
+		bfw90bGXQNbUslaUCQfeBwzlxLA=
+		</data>
+		<key>Resources/lib/python3.14/core/__pycache__/runtime.cpython-314.pyc</key>
+		<data>
+		3slbA7mqTwP7qes3o6JJ3vCC/8U=
+		</data>
+		<key>Resources/lib/python3.14/core/config.py</key>
+		<data>
+		xslcP5mSIf423Po1EJlkX7ZjQKU=
+		</data>
+		<key>Resources/lib/python3.14/core/downloader.py</key>
+		<data>
+		KYfGQtuMFh+JpScFvNslRjahAC0=
+		</data>
+		<key>Resources/lib/python3.14/core/ffmpeg.py</key>
+		<data>
+		kTABinwxiDpnGjv1VboIHRoJXqk=
+		</data>
+		<key>Resources/lib/python3.14/core/notifications.py</key>
+		<data>
+		QBubKcZzSu6SkBWdCLAt9Cjxrs8=
+		</data>
+		<key>Resources/lib/python3.14/core/runtime.py</key>
+		<data>
+		A7xI92nz2YF650EW7l9HJyG/VTw=
 		</data>
 		<key>Resources/lib/python3.14/ctypes/__init__.py</key>
 		<data>
@@ -12530,7 +12578,7 @@
 		</data>
 		<key>Resources/lib/python3.14/yt_dlp/extractor/shahid.py</key>
 		<data>
-		RcvKc9hdPLPNoerOY+siREmL7HY=
+		xvEppNjIK5n2vsNENcyNqrXS/RA=
 		</data>
 		<key>Resources/lib/python3.14/yt_dlp/extractor/sharepoint.py</key>
 		<data>
@@ -14166,7 +14214,7 @@
 		</data>
 		<key>Resources/lib/python314.zip</key>
 		<data>
-		0k7FqfcKCNeNiJy/avS+nlPSPNM=
+		kW/bS0jgjbAKXBhcWgYm7BPLTDI=
 		</data>
 		<key>Resources/main.py</key>
 		<data>
@@ -14182,7 +14230,7 @@
 		</data>
 		<key>Resources/site.pyc</key>
 		<data>
-		yYFdZGG84m3uH6UqPsV5RAbuQvM=
+		4tqg4NtFyqIPMaMTpHMmr99MLAc=
 		</data>
 		<key>Resources/zlib.cpython-314-darwin.so</key>
 		<data>
@@ -14300,16 +14348,16 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			A8xtrWyu6OyQOj1hGUGcJRXyyVI=
+			gtD9AggFi9zj7n2r/8dyNdAO8O8=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"03cc6dad6caee8ec903a3d6119419c2515f2c952"</string>
+			<string>cdhash H"82d0fd0208058bdce3ee7dabffc77235d00ef0ef"</string>
 		</dict>
 		<key>Resources/__boot__.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TxYXWxctocLTMywa4VqoQEGEm2aZueaLBev2RAGl7i8=
+			E2TYv6QncMPiW0AA6I6AHfJT2RlTTS4f3ffrEWkG+S0=
 			</data>
 		</dict>
 		<key>Resources/__error__.sh</key>
@@ -15997,6 +16045,90 @@
 			<key>hash2</key>
 			<data>
 			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			I9SDsRl8lLb8DRZ6hd1YhX6F6OSmZgZ9mdspf6FoxCE=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/__init__.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			sLyu63Ju8NjAFAizQSp/l0n37JXBw5qJMJaC3AQ23mE=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/config.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+quBGa69n/cj14JjhQz1S1pklSG5IZ1J297A2WYmizA=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/downloader.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			G6ZzDECzVEC+ruoLVflnk2xcP6cEB54ttRVTQPCsFNY=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/ffmpeg.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			2+8xGxCShEjdx8zEkVDTiotrN5ZZk6SaZpP8Ms2Zz54=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/notifications.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Pnhy+dyUrheBkzVirjQ1RcM0nDbhsfc70P7p2PWd9gA=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/__pycache__/runtime.cpython-314.pyc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			KpEd/9oAJ/wEjyAzxDBxqX5yCAstWazenaMVPvokEYs=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/config.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xK2njjndZ7mRNFCfqDMfWmqRNvlGZIFMQARnGiRjhFs=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/downloader.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			mgDCaK7oWeVhA3JjebXDza7ENV0HZkzfTJ4lwNkyjWI=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/ffmpeg.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			iBhCs1uwXew57pphTDfgQeBuj/jO5acGW8+1cVbLm6k=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/notifications.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nyRzRgFR4c82rnFlxlBbN3twJEzqQiNynaQqiQ/Dzbg=
+			</data>
+		</dict>
+		<key>Resources/lib/python3.14/core/runtime.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nlOoJvKMzAHd3CH9PBGeM56qjyj4+P61IU7x1a1IE1s=
 			</data>
 		</dict>
 		<key>Resources/lib/python3.14/ctypes/__init__.py</key>
@@ -36217,7 +36349,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+CwfBl9qo91c6O40kdTEnyRdHnupIbjMDMnIZYpjT70=
+			eDZNWLocfryjR3o+aJKx5GsPZvLGJLpriK6pJH+Olps=
 			</data>
 		</dict>
 		<key>Resources/lib/python3.14/yt_dlp/extractor/sharepoint.py</key>
@@ -39080,7 +39212,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			o95RnbT4yWaisfLwOerO5RlQQWheJ3mY4GTlSjFVMIc=
+			YufatTNhpCrU9fDEsmjlDJzHiFEoZMq/oT0Ex5+B59Q=
 			</data>
 		</dict>
 		<key>Resources/main.py</key>
@@ -39108,7 +39240,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/3L9+27OZeP38M0A2YFU89Y316UaD3mXYxVjCZPePsU=
+			z4Dqd+U7KG7M7gNN5LX5ZfWTjy1LKdxeNHYUf4VhHXg=
 			</data>
 		</dict>
 		<key>Resources/zlib.cpython-314-darwin.so</key>

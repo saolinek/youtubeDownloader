@@ -17,8 +17,8 @@ DEFAULT_CONFIG = {
     "cookies_file": "",
     "proxy": "",
     "playlists": [],
-    "rate_limit_min": 4,
-    "rate_limit_max": 8,
+    "rate_limit_min": 1,
+    "rate_limit_max": 1,
     "audio_format": "mp3",
     "audio_quality": "0",  # best
     "notifications_enabled": True,

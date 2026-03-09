@@ -13,7 +13,7 @@ Built with Python 3.12, CustomTkinter, and yt-dlp. Packaged as a native macOS `.
 - **Private Playlists mode** — uses cookies from a **burner account only**
 - Big red warning popup before enabling cookies
 - Optional **HTTP/SOCKS5 proxy** for IP hiding
-- **4–8 second rate limiting** between tracks (mimics human behavior)
+- **1 second rate limiting** between tracks by default (configurable)
 
 ### 📋 Playlist Management
 - Watch multiple YouTube Music playlists (public or private)
@@ -173,8 +173,8 @@ Settings are stored in `~/.ytmusic_downloader/config.json`:
 | `privacy_mode` | `anonymous` | `anonymous` or `cookies` |
 | `audio_format` | `mp3` | `mp3`, `m4a`, `flac`, `opus`, `wav` |
 | `audio_quality` | `0` (best) | Bitrate setting |
-| `rate_limit_min` | `4` | Min seconds between tracks |
-| `rate_limit_max` | `8` | Max seconds between tracks |
+| `rate_limit_min` | `1` | Min seconds between tracks |
+| `rate_limit_max` | `1` | Max seconds between tracks |
 | `proxy` | `""` | Optional proxy URL |
 
 Per-playlist download archives are stored in `~/.ytmusic_downloader/archives/`.

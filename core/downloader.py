@@ -465,7 +465,7 @@ class Downloader:
                     failed += 1
 
             if i < len(missing_entries) and not self._cancel_event.is_set():
-                delay = random.uniform(self.config.get("rate_limit_min", 4), self.config.get("rate_limit_max", 8))
+                delay = random.uniform(self.config.get("rate_limit_min", 1), self.config.get("rate_limit_max", 1))
                 self._progress.status = "pausing"
                 self._progress.message = f"Waiting {delay:.1f}s..."
                 self._notify_progress()
