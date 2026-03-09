@@ -32,3 +32,7 @@ build/
 
 # Config (user-specific, not committed)
 # ~/.ytmusic_downloader/ is in home dir, not in repo
+
+# Allow shipping a built app in distr/
+!distr/
+!distr/**
