@@ -91,6 +91,8 @@ The Windows executable is written to `distr/YTMusic Smart Downloader.exe`.
 
 If you push to `main`, GitHub Actions also builds the Windows executable and commits it back into `distr/`.
 
+For end users on Windows, a short launch guide is included in `distr/windows/JAK-SPUSTIT_WINDOWS.txt`.
+
 ---
 
 ## 📖 Usage Guide

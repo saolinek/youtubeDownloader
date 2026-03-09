@@ -1,0 +1,18 @@
+YTMusic Smart Downloader - Windows
+==================================
+
+Spusteni:
+- Otevri soubor "YTMusic Smart Downloader.exe".
+- Pokud Windows ukaze SmartScreen varovani, klikni na "More info" a potom "Run anyway".
+- Aplikace neni podepsana certifikatem, proto muze Windows pri prvnim spusteni varovat.
+
+Co je uvnitr:
+- Tenhle EXE je kompletni aplikace.
+- FFmpeg je pribaleny uvnitr, neni potreba nic dalsiho instalovat.
+
+Kde jsou data:
+- Hudba se standardne uklada do slozky Music\\YTMusic Downloads.
+- Nastaveni a seznam playlistu se uklada do %USERPROFILE%\\.ytmusic_downloader\\config.json.
+
+Poznamka:
+- Pri prvnim startu muze aplikace nabehnout o trochu pomaleji, protoze jde o single-file build.
