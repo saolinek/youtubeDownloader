@@ -140,6 +140,7 @@ class Downloader:
             "progress_hooks": [self._progress_hook],
             "extract_flat": False,
             "nocheckcertificate": False,
+            "windowsfilenames": True,
         }
 
         # Use download archive if provided
@@ -557,6 +558,17 @@ class Downloader:
                 except OSError: pass
                 continue
             if fext.lower() in self.VIDEO_EXTENSIONS and self._has_app_track_marker(filename):
+                # Only delete video if a corresponding audio file exists.
+                # If FFmpeg conversion failed, the video is the only copy.
+                tid_match = re.search(r"\[([A-Za-z0-9_-]{6,})\](?=\.[^.]+$)", filename)
+                if tid_match:
+                    tid = tid_match.group(1)
+                    has_audio = any(
+                        f"[{tid}]" in f and os.path.splitext(f)[1].lower() in self.AUDIO_EXTENSIONS
+                        for f in os.listdir(output_dir) if f != filename
+                    )
+                    if not has_audio:
+                        continue
                 try: os.remove(filepath)
                 except OSError: pass
                 continue
@@ -585,7 +597,8 @@ class Downloader:
 
             if new_name != filename:
                 try: os.rename(filepath, new_path)
-                except OSError: pass
+                except OSError as e:
+                    print(f"[Downloader] Could not rename {filename}: {e}")
 
     def cancel(self):
         self._cancel_event.set()

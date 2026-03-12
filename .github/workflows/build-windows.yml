@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - claude/fix-windows-download-issue-cTVOD
     paths-ignore:
       - "distr/YTMusic Smart Downloader.exe"
   workflow_dispatch:
